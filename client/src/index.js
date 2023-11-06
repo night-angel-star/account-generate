@@ -6,6 +6,9 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import configureStore from "./redux/configureStore";
+import { ClimbingBoxLoader } from "react-spinners";
+import { BrowserRouter } from "react-router-dom";
+
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -16,6 +19,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 const defaultTheme = createTheme();
+const loaderStyle = {
+  color: defaultTheme.palette.primary.main,
+  background: defaultTheme.palette.background.default,
+};
 const { store, persistor } = configureStore();
 
 root.render(
@@ -23,9 +30,17 @@ root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ThemeProvider theme={defaultTheme}>
-        <Suspense fallback={<div>Loading...</div>}>
-          <App />
-        </Suspense>
+        <BrowserRouter>
+          <Suspense
+            fallback={
+              <div className="sweet-loading">
+                <ClimbingBoxLoader color={loaderStyle.color} loading={true} />
+              </div>
+            }
+          >
+            <App />
+          </Suspense>
+        </BrowserRouter>
       </ThemeProvider>
     </PersistGate>
   </Provider>

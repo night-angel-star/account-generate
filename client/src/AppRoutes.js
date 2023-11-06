@@ -1,5 +1,4 @@
 import { lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "./pages/errorPage";
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
@@ -13,7 +12,11 @@ const PrivateRoute = lazy(() => import("./components/privateRoute/index"));
 const Footer = lazy(() => import("./components/pageLayout/Footer"));
 const Topbar = lazy(() => import("./components/pageLayout/TopBar"));
 
-const AppRoutes = createBrowserRouter([
+const AppRoutes = [
+  {
+    path: "*",
+    element: <ErrorPage />,
+  },
   {
     path: "/",
     element: (
@@ -45,11 +48,23 @@ const AppRoutes = createBrowserRouter([
   },
   {
     path: "/auth/login",
-    element: <Login />,
+    element: (
+      <>
+        <Login>
+          <Footer />
+        </Login>
+      </>
+    ),
   },
   {
     path: "/auth/register",
-    element: <Register />,
+    element: (
+      <>
+        <Register>
+          <Footer />
+        </Register>
+      </>
+    ),
   },
-]);
+];
 export default AppRoutes;

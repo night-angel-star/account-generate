@@ -3,8 +3,8 @@ import API_URL from "../constants/API";
 
 const login = async (payload) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, payload);
-    return response.data;
+    const response = await axios.post(`${API_URL}/auth/login`, payload);
+    return response;
   } catch (err) {
     if (err.response) {
       throw err.response;
@@ -14,8 +14,8 @@ const login = async (payload) => {
 
 const register = async (payload) => {
   try {
-    const response = await axios.post(`${API_URL}/register`, payload);
-    return response.data;
+    const response = await axios.post(`${API_URL}/auth/register`, payload);
+    return response;
   } catch (err) {
     if (err.response) {
       throw err.response;

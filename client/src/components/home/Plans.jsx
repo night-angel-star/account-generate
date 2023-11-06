@@ -15,11 +15,11 @@ export const Plans = () => {
   return (
     <Container maxWidth="md" component="main">
       <Grid container spacing={5} alignItems="flex-end">
-        {tiers.map((tier) => (
+        {tiers.map((tier, index1) => (
           // Enterprise card is full width at sm breakpoint
           <Grid
             item
-            key={tier.title}
+            key={index1}
             xs={12}
             sm={tier.title === "Enterprise" ? 12 : 6}
             md={4}
@@ -57,12 +57,12 @@ export const Plans = () => {
                   </Typography>
                 </Box>
                 <ul>
-                  {tier.description.map((line) => (
+                  {tier.description.map((line, index2) => (
                     <Typography
                       component="li"
                       variant="subtitle1"
                       align="center"
-                      key={line}
+                      key={index2}
                     >
                       {line}
                     </Typography>

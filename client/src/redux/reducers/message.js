@@ -10,7 +10,7 @@ export function message(state = initialState, action) {
 
   switch (type) {
     case SET_MESSAGE:
-      return { messages: payload, type: payload.type };
+      return { messages: payload.messages, type: payload.type };
 
     case CLEAR_MESSAGE:
       return { messages: [], type: "" };

@@ -1,49 +1,54 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  Stack,
+  Alert,
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { register } from "../../redux/actions/auth";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-export const Register = () => {
-  const handleSubmit = (event) => {
+export const Register = (props) => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const payload = {
       email: data.get("email"),
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
       password: data.get("password"),
-    });
+    };
+    await dispatch(register(payload));
   };
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  });
+
+  const errorMessages = useSelector((state) => state.message.messages);
+  const errorType = useSelector((state) => state.message.type);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -69,6 +74,14 @@ export const Register = () => {
             onSubmit={handleSubmit}
             sx={{ mt: 3 }}
           >
+            <Stack spacing={2}>
+              {errorMessages?.length > 0 &&
+                errorMessages.map((errorMessage, i) => (
+                  <Alert severity={errorType} key={i}>
+                    {errorMessage.msg}
+                  </Alert>
+                ))}
+            </Stack>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -138,7 +151,7 @@ export const Register = () => {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        {props.children}
       </Container>
     </ThemeProvider>
   );

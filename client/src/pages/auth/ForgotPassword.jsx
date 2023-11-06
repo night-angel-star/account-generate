@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
-export const Login = (props) => {
+export const Login = () => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   React.useEffect(() => {
@@ -125,7 +125,6 @@ export const Login = (props) => {
             </Grid>
           </Box>
         </Box>
-        {props.children}
       </Container>
     </ThemeProvider>
   );

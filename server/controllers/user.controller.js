@@ -79,23 +79,55 @@ const userRegister = () => {
           });
           await newUser.save();
 
-          res.status(201).json({
-            msg: `Successfully Registered. Please Check Your Email for verification. Also please check your spam box.`,
+          // res.status(201).json({
+          //   msg: `Successfully Registered. Please Check Your Email for verification. Also please check your spam box.`,
+          // });
+          const existUser = await userModel.findOne({
+            email: email,
+            // verified: true,
+            active: true,
           });
+          if (existUser) {
+            const token = jwt.sign(
+              {
+                userID: newUser._id,
+              },
+              process.env.JWT_TOKEN,
+              {
+                expiresIn: "1d",
+              }
+            );
+            const {
+              password,
+              _id,
+              randString,
+              created_at,
+              updated_at,
+              __v,
+              ...sendableUser
+            } = newUser._doc;
+            res.status(201).json({
+              token: token,
+              user: sendableUser,
+              msg: "Succesfully Logged In",
+            });
+          } else {
+            throw "couldn't find saved user";
+          }
         } else {
           res.status(503).json({
-            errors: [`We couldn't send email`],
+            errors: [{ msg: `We couldn't send email` }],
           });
         }
       } else {
         res.status(409).json({
-          errors: ["Already Registered"],
+          errors: [{ field: email, msg: "Already Registered" }],
         });
       }
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        errors: ["Server Error"],
+        errors: [{ msg: "Server Error" }],
       });
     }
   };
@@ -122,7 +154,6 @@ const userLogin = () => {
         if (isValidPass) {
           const token = jwt.sign(
             {
-              username: existUser.username,
               userID: existUser._id,
             },
             process.env.JWT_TOKEN,
@@ -146,18 +177,18 @@ const userLogin = () => {
           });
         } else {
           res.status(403).json({
-            errors: ["Password Wrong."],
+            errors: [{ field: "password", msg: "Password Wrong." }],
           });
         }
       } else {
         res.status(404).json({
-          errors: ["User Not Found"],
+          errors: [{ field: "email", msg: "User Not Found" }],
         });
       }
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        errors: ["Server Error"],
+        errors: [{ msg: "Server Error" }],
       });
     }
   };
