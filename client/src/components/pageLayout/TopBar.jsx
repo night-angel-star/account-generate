@@ -66,7 +66,7 @@ export const Topbar = () => {
                 aria-expanded={open ? "true" : undefined}
               >
                 <Avatar sx={{ width: 32, height: 32 }}>
-                  {user.name.first[0] + user.name.last[0]}
+                  {user?.name.first[0] + user?.name.last[0]}
                 </Avatar>
               </IconButton>
             </Tooltip>
@@ -116,12 +116,12 @@ export const Topbar = () => {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem disabled>{`${user.name.first} ${user.name.last}`}</MenuItem>
+        <MenuItem disabled>{`${user?.name.first} ${user?.name.last}`}</MenuItem>
         <MenuItem onClick={() => handleNavigate("/my_page")}>
           <Avatar /> My account
         </MenuItem>
         <Divider />
-        <MenuItem onClick={() => handleNavigate("/logout")}>
+        <MenuItem onClick={() => handleNavigate("/auth/logout")}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

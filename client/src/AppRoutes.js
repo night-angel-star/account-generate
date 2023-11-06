@@ -2,6 +2,8 @@ import { lazy } from "react";
 import ErrorPage from "./pages/errorPage";
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
+const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
+const Logout = lazy(() => import("./pages/auth/Logout"));
 
 const Home = lazy(() => import("./pages/main/Home"));
 const MyPage = lazy(() => import("./pages/main/MyPage"));
@@ -65,6 +67,20 @@ const AppRoutes = [
         </Register>
       </>
     ),
+  },
+  {
+    path: "/auth/forgot_password",
+    element: (
+      <>
+        <ForgotPassword>
+          <Footer />
+        </ForgotPassword>
+      </>
+    ),
+  },
+  {
+    path: "/auth/logout",
+    element: <Logout />,
   },
 ];
 export default AppRoutes;

@@ -109,7 +109,7 @@ const userRegister = () => {
             res.status(201).json({
               token: token,
               user: sendableUser,
-              msg: "Succesfully Logged In",
+              msg: "Successfully Logged In",
             });
           } else {
             throw "couldn't find saved user";
@@ -173,7 +173,7 @@ const userLogin = () => {
           res.status(200).json({
             token: token,
             user: sendableUser,
-            msg: "Succesfully Logged In",
+            msg: "Successfully Logged In",
           });
         } else {
           res.status(403).json({
@@ -264,7 +264,7 @@ const userEmailVerify = () => {
 //           }
 //         );
 //         res.status(200).json({
-//           msg: "Succesfully Updated User",
+//           msg: "Successfully Updated User",
 //         });
 //       }
 //     } else {
@@ -303,7 +303,7 @@ const userPassChange = () => {
             }
           );
           res.status(200).json({
-            msg: "Succesfully Changed Password",
+            msg: "Successfully Changed Password",
           });
         } else {
           res.status(200).json({
@@ -339,7 +339,7 @@ const userForgotPassword = () => {
         );
         sendMail(existUser.email, randString, existUser.username, "resetPass");
         res.status(200).json({
-          msg: "Pleace Check Your Email For Details. Also check your spam box.",
+          msg: "Please Check Your Email For Details. Also check your spam box.",
         });
       } else {
         res.status(200).json({
@@ -355,7 +355,7 @@ const userForgotPassword = () => {
   };
 };
 
-// User Valid Randing Check
+// User Valid Random Check
 const userRandStringCheck = () => {
   return async (req, res) => {
     // console.log(req.params)
@@ -403,7 +403,7 @@ const userResetPassword = () => {
           }
         );
         res.status(200).json({
-          msg: "Succesfully Reset Password",
+          msg: "Successfully Reset Password",
         });
       } else {
         res.status(200).json({
@@ -434,7 +434,7 @@ const userDelete = () => {
         if (passwordMatched) {
           await userModel.deleteOne({ _id: req.userID });
           res.status(200).json({
-            msg: "Succesfully Deleted User",
+            msg: "Successfully Deleted User",
           });
         } else {
           res.status(200).json({

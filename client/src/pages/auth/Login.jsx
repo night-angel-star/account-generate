@@ -101,7 +101,7 @@ export const Login = (props) => {
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="Stay Signed In"
             />
             <Button
               type="submit"
@@ -113,7 +113,7 @@ export const Login = (props) => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/auth/forgot_password" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

@@ -5,8 +5,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Link,
   Grid,
   Box,
@@ -16,15 +14,14 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/actions/auth";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-export const Login = () => {
+export const ForgotPassword = (props) => {
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   React.useEffect(() => {
@@ -32,16 +29,16 @@ export const Login = () => {
       navigate("/");
     }
   });
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     const payload = {
       email: data.get("email"),
-      password: data.get("password"),
     };
-    dispatch(login(payload));
+    console.log(payload);
+    // dispatch(login(payload));
   };
 
   const errorMessages = useSelector((state) => state.message.messages);
@@ -63,7 +60,7 @@ export const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Account Recovery
           </Typography>
           <Box
             component="form"
@@ -89,32 +86,19 @@ export const Login = () => {
               autoComplete="email"
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Send Email
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
+                <Link href="/auth/login" variant="body2">
+                  {"Back to Login page"}
                 </Link>
               </Grid>
               <Grid item>
@@ -125,9 +109,10 @@ export const Login = () => {
             </Grid>
           </Box>
         </Box>
+        {props.children}
       </Container>
     </ThemeProvider>
   );
 };
 
-export default Login;
+export default ForgotPassword;
