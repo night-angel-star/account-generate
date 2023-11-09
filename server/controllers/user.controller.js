@@ -14,11 +14,7 @@ const {
 const userView = () => {
   return async (req, res) => {
     try {
-      const existUser = await userModel.findOne({
-        _id: req.userID,
-        active: true,
-        verified: true,
-      });
+      const existUser = req.user;
       if (existUser) {
         let sendableUser = existUser;
         sendableUser["password"] = "";
@@ -158,7 +154,7 @@ const userLogin = () => {
             },
             process.env.JWT_TOKEN,
             {
-              expiresIn: "1d",
+              expiresIn: "30d",
             }
           );
           const {

@@ -42,7 +42,50 @@ const validateLoginFields = (email, password) => {
   return errors;
 };
 
+const validateOrderFields = async (orders, payment) => {
+  const errors = [];
+
+  let orderOkay = true;
+  orderOkay = orders?.length > 0 ?? false;
+
+  if (orderOkay) {
+    await orders.map((order) => {
+      if (!validator.isEmpty(order.mainCategory)) {
+        orderOkay = false;
+      }
+      if (order.count < 1) {
+        orderOkay = false;
+      }
+      if (order.skill.length === 0) {
+        orderOkay = false;
+      }
+      return order;
+    });
+  }
+
+  if (!orderOkay) {
+    errors.push({ field: "order", msg: "Invalid order" });
+  }
+
+  if (!validator.isMongoId(payment)) {
+    errors.push({ field: "payment", msg: "Invalid payment id" });
+  }
+
+  // // Validate email
+  // if (!validator.isEmail(email)) {
+  //   errors.push({ field: "email", msg: "Invalid email" });
+  // }
+
+  // // Validate password
+  // if (!validator.isStrongPassword(password, { minLength: 8 })) {
+  //   errors.push({ field: "password", msg: "Invalid password" });
+  // }
+
+  return errors;
+};
+
 module.exports = {
   validateRegistrationFields,
   validateLoginFields,
+  validateOrderFields,
 };

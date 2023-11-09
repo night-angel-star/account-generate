@@ -52,7 +52,7 @@ const userSchema = mongoose.Schema({
 });
 
 // Model Init
-const userModel = new mongoose.model("user", userSchema);
+const userModel = new mongoose.model("User", userSchema);
 userModel.createIndexes();
 
 module.exports = userModel;
